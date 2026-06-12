@@ -151,6 +151,8 @@
   .consent input{margin-top:2px;accent-color:var(--g2);width:15px;height:15px;flex:none}
   .consent a{color:var(--g4);text-decoration:none}
   .consent a:hover{text-decoration:underline}
+  .guide-choices{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px}
+  .guide-choices .consent{font-size:13.5px;color:var(--ink)}
   .form-err{font-size:12.5px;color:#fca5a5}
   .form-success{font-size:17px;color:var(--ink);font-weight:600}
   .form-success span{font-size:30px;display:block;margin-bottom:8px}
@@ -420,20 +422,26 @@ function Testimonials(){
 function FinalCTA(){
   const [email,setEmail]=useState("");
   const [consent,setConsent]=useState(false);
+  const [guidePremierAchat,setGuidePremierAchat]=useState(true);
+  const [guideInvestissement,setGuideInvestissement]=useState(true);
   const [err,setErr]=useState("");
   const [ok,setOk]=useState(false);
   const [loading,setLoading]=useState(false);
   const submit=async()=>{
     const valid=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
     if(!valid){setErr("Merci d'entrer une adresse email valide.");return;}
+    if(!guidePremierAchat && !guideInvestissement){setErr("Merci de sélectionner au moins un guide.");return;}
     if(!consent){setErr("Merci de cocher la case pour recevoir les guides.");return;}
     setErr("");
     setLoading(true);
+    const guides=[];
+    if(guidePremierAchat) guides.push("premier-achat");
+    if(guideInvestissement) guides.push("investissement-locatif");
     try{
       const res=await fetch("/.netlify/functions/subscribe",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({email})
+        body:JSON.stringify({email,guides})
       });
       if(!res.ok) throw new Error("request failed");
       setOk(true);
@@ -463,6 +471,16 @@ function FinalCTA(){
               <div className="frow">
                 <input type="email" placeholder="votre@email.fr" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} />
                 <motion.button className="btn" onClick={submit} disabled={loading} whileHover={{scale:1.04}} whileTap={{scale:.96}}>{loading?"Envoi…":"Recevoir les guides"}</motion.button>
+              </div>
+              <div className="guide-choices">
+                <label className="consent">
+                  <input type="checkbox" checked={guidePremierAchat} onChange={e=>{setGuidePremierAchat(e.target.checked);setErr("");}} />
+                  <span>Le guide du premier achat</span>
+                </label>
+                <label className="consent">
+                  <input type="checkbox" checked={guideInvestissement} onChange={e=>{setGuideInvestissement(e.target.checked);setErr("");}} />
+                  <span>Réussir son investissement locatif</span>
+                </label>
               </div>
               <label className="consent">
                 <input type="checkbox" checked={consent} onChange={e=>{setConsent(e.target.checked);setErr("");}} />
