@@ -4,3 +4,11 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# --- MODE MAINTENANCE TEMPORAIRE ---
+# Pour reactiver le site normal, supprimer ce bloc [[redirects]].
+[[redirects]]
+  from = "/*"
+  to = "/maintenance.html"
+  status = 200
+  force = true
