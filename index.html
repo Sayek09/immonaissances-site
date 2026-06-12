@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>les immonaissances — Réussir votre projet immobilier, sans erreurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/11.18.2/framer-motion.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#06080f;
+    --bg-2:#0a0e22;
+    --ink:#f1f5f9;
+    --muted:#8b95c4;
+    --line:rgba(255,255,255,.08);
+    --g1:#818cf8;   /* indigo */
+    --g2:#a78bfa;   /* violet */
+    --g3:#6366f1;   /* deep indigo */
+    --g4:#22d3ee;   /* cyan   */
+    --card:rgba(255,255,255,.035);
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+  ::selection{background:var(--g2);color:#fff}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  h1,h2,h3,.display{font-family:"Bricolage Grotesque",sans-serif;letter-spacing:-.02em;line-height:1.02}
+  .grad-text{background:linear-gradient(115deg,var(--g1),var(--g2) 45%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .btn{font-family:"Hanken Grotesk";font-weight:600;font-size:15px;border:none;cursor:pointer;border-radius:100px;padding:14px 26px;color:#0a0e22;position:relative;transition:transform .2s,box-shadow .3s;background:linear-gradient(100deg,var(--g1),var(--g4));box-shadow:0 8px 30px -8px rgba(129,140,248,.6)}
+  .btn:hover{box-shadow:0 14px 40px -8px rgba(129,140,248,.75)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none;backdrop-filter:blur(8px)}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.28);box-shadow:none}
+  /* brand logo */
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand .bico{flex:0 0 auto;display:block}
+  .brand .bico svg{width:100%;height:100%;display:block}
+  .brand .wm{display:flex;flex-direction:column;line-height:1}
+  .brand .eb{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);margin:0 0 3px 1px}
+  .brand .wd{font-family:"Bricolage Grotesque";font-weight:800;letter-spacing:-.025em;color:var(--ink)}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(14px);background:rgba(6,8,15,.6);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-links{display:flex;gap:32px;font-size:15px}
+  .nav-links a{color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  @media(max-width:760px){.nav-links{display:none}}
+  .hero{position:relative;padding:170px 0 110px;text-align:center;overflow:hidden}
+  .hero h1{font-size:clamp(42px,8vw,88px);font-weight:700;max-width:15ch;margin:0 auto}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--muted);border:1px solid var(--line);padding:7px 16px;border-radius:100px;background:rgba(255,255,255,.02);margin-bottom:30px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--g4);box-shadow:0 0 10px var(--g4)}
+  .hero p.sub{max-width:58ch;margin:26px auto 38px;font-size:clamp(16px,2vw,19px);color:var(--muted)}
+  .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .stats{display:flex;gap:46px;justify-content:center;margin-top:74px;flex-wrap:wrap}
+  .stats .n{font-family:"Bricolage Grotesque";font-weight:700;font-size:34px}
+  .stats .l{color:var(--muted);font-size:13.5px;letter-spacing:.02em}
+  .mesh-wrap{position:absolute;inset:-30% -10% auto -10%;height:120%;z-index:-2;filter:blur(60px) saturate(140%)}
+  .mesh{width:90vw;height:90vw;max-width:1100px;max-height:1100px;margin:0 auto;border-radius:50%;background:conic-gradient(from 90deg,var(--g1),var(--g2),var(--g3),var(--g4),var(--g1));opacity:.5;animation:hue 16s linear infinite}
+  .orb{position:absolute;border-radius:50%;z-index:-2;filter:blur(70px);opacity:.45}
+  .orb.a{width:380px;height:380px;background:var(--g3);top:-40px;left:-80px}
+  .orb.b{width:300px;height:300px;background:var(--g4);bottom:-60px;right:-40px}
+  .grid-fade{position:absolute;inset:0;z-index:-1;background:linear-gradient(var(--bg) 0%,transparent 18%,transparent 82%,var(--bg) 100%),radial-gradient(circle at 50% 40%,transparent 0%,var(--bg) 72%)}
+  @keyframes hue{to{filter:hue-rotate(360deg)}}
+  section{position:relative}
+  .sec-head{text-align:center;max-width:40ch;margin:0 auto 56px}
+  .sec-head .tag{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--g2)}
+  .sec-head h2{font-size:clamp(30px,4.5vw,48px);font-weight:700;margin-top:14px}
+  .sec-head p{color:var(--muted);margin-top:16px;font-size:16.5px}
+  .features{padding:40px 0 80px}
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:880px;margin:0 auto}
+  @media(max-width:860px){.feat-grid{grid-template-columns:1fr}}
+  .feat{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px 32px;background:var(--card);overflow:hidden;transition:border-color .3s}
+  .feat:hover{border-color:rgba(255,255,255,.22)}
+  .feat::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(160deg,rgba(129,140,248,.45),transparent 42%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s}
+  .feat:hover::before{opacity:1}
+  .feat .top{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .feat .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(150deg,rgba(129,140,248,.18),rgba(34,211,238,.18));border:1px solid var(--line)}
+  .feat .ic svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.7}
+  .feat .pill{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--g4);border:1px solid var(--line);padding:5px 11px;border-radius:100px}
+  .feat h3{font-size:22px;font-weight:600;margin-bottom:10px}
+  .feat>p{color:var(--muted);font-size:15.5px;margin-bottom:18px}
+  .feat ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+  .feat li{display:flex;gap:10px;align-items:center;font-size:14.5px;color:#cdd6e8}
+  .feat li svg{width:17px;height:17px;flex:none;stroke:var(--g4);fill:none;stroke-width:2.2}
+  .feat .flink{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14.5px;color:var(--ink);text-decoration:none;transition:gap .2s}
+  .feat .flink:hover{gap:11px}
+  .tools{padding:50px 0 90px}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:860px){.calc-grid{grid-template-columns:1fr}}
+  .calc{border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px;background:var(--card)}
+  .calc .ch{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+  .calc .ch svg{width:21px;height:21px;stroke:var(--g4);fill:none;stroke-width:1.8}
+  .calc h3{font-size:21px;font-weight:700}
+  .calc .csub{color:var(--muted);font-size:13.5px;margin-bottom:22px}
+  .cfield{display:block;margin-bottom:15px}
+  .cfield .lbl{font-size:13px;color:var(--muted);font-weight:600;display:block;margin-bottom:6px}
+  .cfield .inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);overflow:hidden;transition:border-color .2s}
+  .cfield .inp:focus-within{border-color:var(--g1)}
+  .cfield input{flex:1;background:transparent;border:none;outline:none;color:var(--ink);font-family:"Hanken Grotesk";font-size:15px;padding:11px 14px;width:100%}
+  .cfield .suf{padding:0 14px;color:var(--muted);font-size:13px;border-left:1px solid var(--line);align-self:stretch;display:flex;align-items:center}
+  .cres{margin-top:20px;border-radius:16px;padding:22px 24px;border:1px solid var(--line);background:linear-gradient(150deg,rgba(129,140,248,.12),rgba(34,211,238,.12))}
+  .crow{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+  .crow .rl{color:var(--muted);font-size:14px}
+  .crow .rv{font-weight:700;font-family:"Bricolage Grotesque";font-size:16px}
+  .crow.big{border-top:1px solid var(--line);margin-top:8px;padding-top:14px}
+  .crow.big .rl{color:var(--ink);font-weight:600;font-size:15px}
+  .crow.big .rv{font-size:30px}
+  .cnote{font-size:12px;color:var(--muted);opacity:.7;margin-top:14px;line-height:1.5}
+  .about{padding:50px 0 90px}
+  .about-in{display:grid;grid-template-columns:.8fr 2fr;gap:48px;align-items:start;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:44px 40px}
+  @media(max-width:860px){.about-in{grid-template-columns:1fr;text-align:center}}
+  .avatar{width:120px;height:120px;border-radius:50%;background:conic-gradient(from 0deg,var(--g1),var(--g2),var(--g4),var(--g3),var(--g1));display:grid;place-items:center;font-family:"Bricolage Grotesque";font-weight:800;font-size:46px;color:var(--bg);margin-bottom:16px}
+  @media(max-width:860px){.avatar{margin:0 auto 16px}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  @media(max-width:860px){.chips{justify-content:center}}
+  .chip{font-size:12px;font-weight:600;color:var(--g4);border:1px solid var(--line);padding:6px 12px;border-radius:100px;background:rgba(255,255,255,.02)}
+  .about h2{font-size:clamp(26px,3.6vw,38px);font-weight:700;margin-bottom:18px}
+  .about .body p{color:var(--muted);font-size:15.5px;margin-bottom:14px}
+  .about .body strong{color:var(--ink)}
+  .ab-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+  .ab-stat{border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;background:rgba(255,255,255,.02)}
+  .ab-stat .n{font-family:"Bricolage Grotesque";font-weight:700;font-size:22px}
+  .ab-stat .l{color:var(--muted);font-size:12px;margin-top:3px}
+  .testi{padding:40px 0 90px}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:860px){.testi-grid{grid-template-columns:1fr}}
+  .tcard{border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;background:var(--card);display:flex;flex-direction:column}
+  .tcard .q{font-size:30px;line-height:1;color:var(--g2);font-family:"Bricolage Grotesque";margin-bottom:12px}
+  .tcard .txt{color:#cdd6e8;font-size:14.5px;font-style:italic;flex:1}
+  .tcard .stars{display:flex;gap:3px;margin:16px 0 14px}
+  .tcard .stars svg{width:15px;height:15px;fill:#fbbf24;stroke:#fbbf24}
+  .tcard .who{border-top:1px solid var(--line);padding-top:14px}
+  .tcard .who .nm{font-weight:600;font-size:14px}
+  .tcard .who .rl{color:var(--muted);font-size:12px}
+  .finalcta{padding:30px 0 110px}
+  .cta-box{position:relative;overflow:hidden;border-radius:34px;text-align:center;padding:80px 30px;border:1px solid var(--line);background:radial-gradient(120% 140% at 50% 0%,rgba(129,140,248,.20),transparent 55%),var(--bg-2)}
+  .cta-box .cmesh{position:absolute;inset:auto -20% -60% -20%;height:80%;z-index:0;filter:blur(70px);opacity:.5;background:conic-gradient(from 200deg,var(--g4),var(--g3),var(--g2),var(--g1),var(--g4));border-radius:50%;animation:hue 14s linear infinite}
+  .cta-box>*{position:relative;z-index:1}
+  .cta-box h2{font-size:clamp(32px,5vw,54px);font-weight:700;max-width:18ch;margin:0 auto}
+  .cta-box p{color:var(--muted);margin:20px auto 34px;max-width:48ch;font-size:17px}
+  .lead-form{display:flex;flex-direction:column;gap:14px;max-width:460px;margin:0 auto}
+  .lead-form .frow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .lead-form input[type=email]{flex:1;min-width:230px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:100px;padding:14px 20px;color:var(--ink);font-family:"Hanken Grotesk";font-size:15px;outline:none;transition:border-color .2s}
+  .lead-form input[type=email]:focus{border-color:var(--g1)}
+  .consent{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--muted);text-align:left}
+  .consent input{margin-top:2px;accent-color:var(--g2);width:15px;height:15px;flex:none}
+  .consent a{color:var(--g4);text-decoration:none}
+  .consent a:hover{text-decoration:underline}
+  .form-err{font-size:12.5px;color:#fca5a5}
+  .form-success{font-size:17px;color:var(--ink);font-weight:600}
+  .form-success span{font-size:30px;display:block;margin-bottom:8px}
+  footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:14px}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-in a{color:var(--muted);text-decoration:none;margin-left:22px}
+  .foot-in a:hover{color:var(--ink)}
+  #root{opacity:0;transition:opacity .4s}
+  #root.ready{opacity:1}
+</style>
+</head>
+<body>
+<!-- dégradé partagé du logo -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#818cf8"/><stop offset=".5" stop-color="#a78bfa"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+</svg>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { useState } = React;
+const FM = window.Motion || {};
+const STRIP = new Set(["initial","animate","exit","transition","variants","whileHover","whileInView","whileTap","whileFocus","viewport","custom","layout","layoutId","drag"]);
+const motion = FM.motion || new Proxy({}, { get:(_,tag)=>React.forwardRef((props,ref)=>{const clean={};for(const k in props){if(!STRIP.has(k))clean[k]=props[k];}return React.createElement(tag,{...clean,ref});}) });
+const fadeUp = { hidden:{opacity:0,y:28}, show:(i=0)=>({opacity:1,y:0,transition:{duration:.7,delay:i*.08,ease:[.22,1,.36,1]}}) };
+const container = { hidden:{}, show:{ transition:{ staggerChildren:.1 } } };
+const HouseMark = () => (
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 88 V46 L50 16 L84 46 V88 Z" stroke="url(#g)" strokeWidth="7" strokeLinejoin="round" strokeLinecap="round"/>
+    <path d="M40 88 V66 a10 10 0 0 1 20 0 V88" stroke="url(#g)" strokeWidth="6" strokeLinejoin="round" strokeLinecap="round"/>
+  </svg>
+);
+function Logo({ ico=30, word=18 }){
+  return (
+    <div className="brand">
+      <span className="bico" style={{width:ico,height:ico}}><HouseMark/></span>
+      <span className="wm">
+        <span className="eb">les</span>
+        <span className="wd" style={{fontSize:word}}><span className="grad-text">immo</span>naissances</span>
+      </span>
+    </div>
+  );
+}
+const Ico = {
+  home:<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>,
+  trend:<svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>,
+  check:<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>,
+  arrow:<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>,
+  star:<svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L5.5 24l2-7L2 9h7z"/></svg>
+};
+function Nav(){
+  return (
+    <nav><div className="wrap nav-in">
+      <Logo ico={30} word={18} />
+      <div className="nav-links">
+        <a href="#guides">Les guides</a>
+        <a href="#outils">Simulateurs</a>
+        <a href="#apropos">À propos</a>
+      </div>
+      <motion.a href="#recevoir" className="btn" whileHover={{scale:1.04}} whileTap={{scale:.97}} style={{textDecoration:"none"}}>Télécharger</motion.a>
+    </div></nav>
+  );
+}
+function Hero(){
+  return (
+    <header className="hero">
+      <div className="mesh-wrap"><motion.div className="mesh" animate={{rotate:360}} transition={{duration:48,repeat:Infinity,ease:"linear"}} /></div>
+      <div className="orb a" /><div className="orb b" /><div className="grid-fade" />
+      <motion.div className="wrap" variants={container} initial="hidden" animate="show">
+        <motion.div variants={fadeUp}><span className="eyebrow"><span className="dot"></span>Guides pratiques · Édition 2026</span></motion.div>
+        <motion.h1 variants={fadeUp}>Votre projet immobilier, <span className="grad-text">sans erreurs.</span></motion.h1>
+        <motion.p className="sub" variants={fadeUp}>
+          Deux guides clairs et à jour de la réglementation 2026, accompagnés de leurs simulateurs —
+          de la capacité d'emprunt au rendement locatif, tout pour décider sereinement.
+        </motion.p>
+        <motion.div className="hero-cta" variants={fadeUp}>
+          <motion.a href="#guides" className="btn" whileHover={{scale:1.04}} whileTap={{scale:.97}} style={{textDecoration:"none"}}>Découvrir les guides</motion.a>
+          <motion.a href="#outils" className="btn btn-ghost" whileHover={{scale:1.04}} whileTap={{scale:.97}} style={{textDecoration:"none"}}>Tester les simulateurs →</motion.a>
+        </motion.div>
+        <motion.div className="stats" variants={fadeUp}>
+          {[["10+ ans","d'expertise immobilière"],["2 agences","créées et dirigées"],["50+","conseillers formés"]].map(([n,l])=>(
+            <div key={l}><div className="n grad-text">{n}</div><div className="l">{l}</div></div>
+          ))}
+        </motion.div>
+      </motion.div>
+    </header>
+  );
+}
+const GUIDES = [
+  {ic:"home",pill:"Édition 2026",t:"Acheter son premier logement",d:"Le parcours complet du primo-accédant, expliqué simplement.",pts:["Budget & financement","Aides et prêts à taux zéro","De l'offre à la signature"],link:"#outils",cta:"Tester ma capacité d'emprunt"},
+  {ic:"trend",pill:"Édition 2026",t:"Réussir son investissement locatif",d:"Choisir, financer et rentabiliser un bien, à jour des règles récentes.",pts:["Calcul de rentabilité","Régimes fiscaux (LMNP…)","Gestion et optimisation"],link:"#outils",cta:"Calculer un rendement"}
+];
+function Guides(){
+  return (
+    <section className="features" id="guides">
+      <div className="wrap">
+        <div className="sec-head">
+          <div className="tag">Les guides</div>
+          <h2>Deux guides pour deux projets</h2>
+          <p>Que vous achetiez votre premier chez-vous ou que vous investissiez dans la pierre.</p>
+        </div>
+        <motion.div className="feat-grid" variants={container} initial="hidden" whileInView="show" viewport={{once:true,amount:.2}}>
+          {GUIDES.map((g,i)=>(
+            <motion.div key={g.t} className="feat" variants={fadeUp} custom={i} whileHover={{y:-6}}>
+              <div className="top"><div className="ic">{Ico[g.ic]}</div><span className="pill">{g.pill}</span></div>
+              <h3>{g.t}</h3>
+              <p>{g.d}</p>
+              <ul>{g.pts.map(p=>(<li key={p}>{Ico.check}{p}</li>))}</ul>
+              <a className="flink" href={g.link}>{g.cta} {Ico.arrow}</a>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+function Field({label,value,onChange,suffix}){
+  return (
+    <label className="cfield">
+      <span className="lbl">{label}</span>
+      <span className="inp">
+        <input type="number" value={value} onChange={e=>onChange(e.target.value===""?"":Number(e.target.value))} />
+        {suffix && <span className="suf">{suffix}</span>}
+      </span>
+    </label>
+  );
+}
+function Row({label,value,big}){
+  return (<div className={"crow"+(big?" big":"")}><span className="rl">{label}</span><span className="rv">{value}</span></div>);
+}
+function BorrowingCalc(){
+  const [revenus,setRevenus]=useState(3500);
+  const [charges,setCharges]=useState(200);
+  const [taux,setTaux]=useState(3.5);
+  const [duree,setDuree]=useState(25);
+  const [apport,setApport]=useState(20000);
+  const mensualiteMax=Math.max(0,revenus*0.35-charges);
+  const i=taux/100/12, n=duree*12;
+  const capacite=i>0?mensualiteMax*(1-Math.pow(1+i,-n))/i:mensualiteMax*n;
+  const budget=capacite+(apport||0);
+  const fmt=x=>Math.round(x).toLocaleString("fr-FR");
+  return (
+    <motion.div className="calc" variants={fadeUp} whileHover={{y:-4}}>
+      <div className="ch">{Ico.home}<h3>Capacité d'emprunt</h3></div>
+      <div className="csub">Estimez votre budget d'achat en quelques secondes.</div>
+      <Field label="Revenus nets du foyer / mois" value={revenus} onChange={setRevenus} suffix="€" />
+      <Field label="Crédits en cours / mois" value={charges} onChange={setCharges} suffix="€" />
+      <Field label="Taux d'intérêt annuel" value={taux} onChange={setTaux} suffix="%" />
+      <Field label="Durée" value={duree} onChange={setDuree} suffix="ans" />
+      <Field label="Apport personnel" value={apport} onChange={setApport} suffix="€" />
+      <div className="cres">
+        <Row label="Mensualité maximale" value={fmt(mensualiteMax)+" €"} />
+        <Row label="Capacité d'emprunt" value={fmt(capacite)+" €"} />
+        <Row label="Budget total (avec apport)" value={fmt(budget)+" €"} big />
+      </div>
+      <p className="cnote">Estimation basée sur le taux d'endettement maximal de 35 % (recommandation HCSF, assurance comprise). À titre indicatif, hors étude bancaire personnalisée.</p>
+    </motion.div>
+  );
+}
+function YieldCalc(){
+  const [prix,setPrix]=useState(150000);
+  const [frais,setFrais]=useState(15000);
+  const [loyer,setLoyer]=useState(700);
+  const [chargesAn,setChargesAn]=useState(2500);
+  const loyerAn=loyer*12, invest=prix+(frais||0);
+  const brut=prix>0?loyerAn/prix*100:0;
+  const net=invest>0?(loyerAn-(chargesAn||0))/invest*100:0;
+  const pct=x=>x.toFixed(2).replace(".",","), eur=x=>Math.round(x).toLocaleString("fr-FR");
+  return (
+    <motion.div className="calc" variants={fadeUp} whileHover={{y:-4}}>
+      <div className="ch">{Ico.trend}<h3>Rendement locatif</h3></div>
+      <div className="csub">Mesurez la rentabilité d'un bien avant d'investir.</div>
+      <Field label="Prix d'achat du bien" value={prix} onChange={setPrix} suffix="€" />
+      <Field label="Frais (notaire, travaux…)" value={frais} onChange={setFrais} suffix="€" />
+      <Field label="Loyer mensuel (hors charges)" value={loyer} onChange={setLoyer} suffix="€" />
+      <Field label="Charges annuelles (taxe, gestion…)" value={chargesAn} onChange={setChargesAn} suffix="€" />
+      <div className="cres">
+        <Row label="Loyers annuels" value={eur(loyerAn)+" €"} />
+        <Row label="Rendement brut" value={pct(brut)+" %"} />
+        <Row label="Rendement net" value={pct(net)+" %"} big />
+      </div>
+      <p className="cnote">Rendement net avant fiscalité. Le résultat dépend du régime choisi (LMNP, foncier…), à étudier au cas par cas selon la réglementation 2026.</p>
+    </motion.div>
+  );
+}
+function Tools(){
+  return (
+    <section className="tools" id="outils">
+      <div className="wrap">
+        <div className="sec-head">
+          <div className="tag">Outils interactifs</div>
+          <h2>Simulez votre projet en quelques secondes</h2>
+          <p>Les calculateurs des guides, directement utilisables ici.</p>
+        </div>
+        <motion.div className="calc-grid" variants={container} initial="hidden" whileInView="show" viewport={{once:true,amount:.15}}>
+          <BorrowingCalc /><YieldCalc />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+function About(){
+  return (
+    <section className="about" id="apropos">
+      <div className="wrap">
+        <motion.div className="about-in" initial={{opacity:0,y:28}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.2}} transition={{duration:.7,ease:[.22,1,.36,1]}}>
+          <div>
+            <div className="avatar">Y</div>
+            <div style={{fontWeight:700}}>Yassine</div>
+            <div style={{color:"var(--muted)",fontSize:13}}>28 ans · Expert immobilier</div>
+            <div className="chips">
+              <span className="chip">BTS Immobilier</span>
+              <span className="chip">Bachelor ESPI</span>
+              <span className="chip">Master Aménagement & Promotion</span>
+            </div>
+          </div>
+          <div>
+            <div className="tag" style={{fontSize:13,fontWeight:600,letterSpacing:".14em",textTransform:"uppercase",color:"var(--g2)"}}>À propos</div>
+            <h2 style={{marginTop:12}}>Pourquoi j'ai écrit ces guides</h2>
+            <div className="body">
+              <p>Tout a commencé pour mes amis. Beaucoup voulaient acheter leur premier appartement sans rien connaître à l'immobilier — un univers qui peut intimider quand on n'y est pas habitué. J'ai écrit ces guides pour eux : pour les rassurer, leur éviter les erreurs classiques, et leur donner enfin une vision claire et complète.</p>
+              <p>L'immobilier, j'y suis tombé à 17 ans, et je ne l'ai plus quitté. BTS, puis bachelor à l'ESPI — une référence de la formation immobilière en France — puis master en aménagement et promotion. À 22 ans, j'ai ouvert ma première agence à Brest, une seconde à 24 ans. J'ai accompagné énormément de personnes, du tout premier achat aux opérations les plus complexes, et formé plus de 50 conseillers.</p>
+              <p>Aujourd'hui, mon objectif tient en une phrase : <strong>que plus personne ne se trompe dans un achat immobilier.</strong> Ces guides sont la version écrite de ce que j'aurais aimé qu'on m'explique.</p>
+            </div>
+            <div className="ab-stats">
+              <div className="ab-stat"><div className="n grad-text">10+ ans</div><div className="l">dans l'immobilier</div></div>
+              <div className="ab-stat"><div className="n grad-text">2 agences</div><div className="l">créées à Brest</div></div>
+              <div className="ab-stat"><div className="n grad-text">50+</div><div className="l">conseillers formés</div></div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+/* ⚠️ À REMPLACER par de vrais témoignages — les faux avis sont interdits (pratiques commerciales trompeuses). */
+const TESTI = [
+  {txt:"[Témoignage à remplacer — ex. : Le guide m'a permis de comprendre ma capacité d'emprunt avant même de voir mon banquier. Tout était limpide.]",nm:"[Prénom N.]",rl:"Primo-accédante"},
+  {txt:"[Témoignage à remplacer — ex. : Le calcul de rendement m'a évité un mauvais investissement. Concret, sans jargon inutile.]",nm:"[Prénom N.]",rl:"Investisseur locatif"},
+  {txt:"[Témoignage à remplacer — ex. : Enfin un guide à jour des règles 2026. J'ai gagné un temps fou.]",nm:"[Prénom N.]",rl:"Lecteur"}
+];
+function Testimonials(){
+  return (
+    <section className="testi">
+      <div className="wrap">
+        <div className="sec-head">
+          <div className="tag">Témoignages</div>
+          <h2>Ce qu'en disent les lecteurs</h2>
+          <p>À compléter avec de vrais retours de vos lecteurs.</p>
+        </div>
+        <motion.div className="testi-grid" variants={container} initial="hidden" whileInView="show" viewport={{once:true,amount:.2}}>
+          {TESTI.map((t,i)=>(
+            <motion.div key={i} className="tcard" variants={fadeUp} custom={i} whileHover={{y:-6}}>
+              <div className="q">"</div>
+              <div className="txt">{t.txt}</div>
+              <div className="stars">{[0,1,2,3,4].map(s=><span key={s}>{Ico.star}</span>)}</div>
+              <div className="who"><div className="nm">{t.nm}</div><div className="rl">{t.rl}</div></div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+function FinalCTA(){
+  const [email,setEmail]=useState("");
+  const [consent,setConsent]=useState(false);
+  const [err,setErr]=useState("");
+  const [ok,setOk]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const submit=async()=>{
+    const valid=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    if(!valid){setErr("Merci d'entrer une adresse email valide.");return;}
+    if(!consent){setErr("Merci de cocher la case pour recevoir les guides.");return;}
+    setErr("");
+    setLoading(true);
+    try{
+      const res=await fetch("/.netlify/functions/subscribe",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({email})
+      });
+      if(!res.ok) throw new Error("request failed");
+      setOk(true);
+    }catch(e){
+      setErr("Une erreur est survenue, merci de réessayer dans quelques instants.");
+    }finally{
+      setLoading(false);
+    }
+  };
+  return (
+    <section className="finalcta" id="recevoir">
+      <div className="wrap">
+        <motion.div className="cta-box" initial={{opacity:0,scale:.97}} whileInView={{opacity:1,scale:1}} viewport={{once:true,amount:.3}} transition={{duration:.8,ease:[.22,1,.36,1]}}>
+          <div className="cmesh" />
+          <motion.h2 className="display" initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:.7,delay:.1}}>
+            Recevez les guides <span className="grad-text">gratuitement</span>.
+          </motion.h2>
+          <motion.p initial={{opacity:0}} whileInView={{opacity:1}} viewport={{once:true}} transition={{delay:.25}}>
+            Laissez votre email : vous recevez aussitôt les deux guides 2026 et leurs simulateurs. Sans engagement.
+          </motion.p>
+          {ok ? (
+            <motion.div className="form-success" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}}>
+              <span>✓</span>Merci ! Vérifiez votre boîte mail pour recevoir vos guides.
+            </motion.div>
+          ) : (
+            <div className="lead-form">
+              <div className="frow">
+                <input type="email" placeholder="votre@email.fr" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} />
+                <motion.button className="btn" onClick={submit} disabled={loading} whileHover={{scale:1.04}} whileTap={{scale:.96}}>{loading?"Envoi…":"Recevoir les guides"}</motion.button>
+              </div>
+              <label className="consent">
+                <input type="checkbox" checked={consent} onChange={e=>{setConsent(e.target.checked);setErr("");}} />
+                <span>J'accepte de recevoir les guides et des conseils par email. Mes données ne sont jamais cédées. <a href="#">Politique de confidentialité</a>.</span>
+              </label>
+              {err && <div className="form-err">{err}</div>}
+            </div>
+          )}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+function Footer(){
+  return (
+    <footer><div className="wrap foot-in">
+      <Logo ico={26} word={16} />
+      <div><a href="#">Confidentialité</a><a href="#">Mentions légales</a><a href="#">Contact</a></div>
+      <div style={{width:"100%",textAlign:"center",fontSize:13,opacity:.6}}>© 2026 les immonaissances · Conseil et accompagnement immobilier en France · Simulateurs fournis à titre informatif.</div>
+    </div></footer>
+  );
+}
+function App(){ return (<><Nav/><Hero/><Guides/><Tools/><About/><Testimonials/><FinalCTA/><Footer/></>); }
+const root = document.getElementById("root");
+ReactDOM.createRoot(root).render(<App/>);
+requestAnimationFrame(()=>root.classList.add("ready"));
+</script>
+</body>
+</html>
